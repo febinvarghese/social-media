@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/User");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const userContoller = require("../controllers/userContoller")
 
 // update a  user
 
@@ -55,15 +56,7 @@ router.delete("/:id", async (req, res) => {
 
 // get a user
 
-router.get("/:id", async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    const { password, _id, ...other } = user._doc;
-    res.status(200).json(other);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
+router.route('/:id').get(userContoller.getAllUsers)
 
 // follow a user
 router.put("/:id/follow", async (req, res) => {
@@ -103,7 +96,7 @@ router.put("/:id/unfollow", async (req, res) => {
         }
       } catch (error) {}
     } else {
-      res.status(200).json("you cannot follow yourself");
+      res.status(200).json("you cannot follow yourself");  
     }
   });
   
