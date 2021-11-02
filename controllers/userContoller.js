@@ -1,10 +1,21 @@
 const User = require("../models/User");
 
+exports.deleteuser = async (req, res) => {
+  if (req.body.userid === req.params.id) {
+    try {
+      const user = await User.findByIdAndDelete(req.params.id);
+      res.status(200).json("account has been deleted");
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  } else {
+    res.status(404).json("you can only update your account");
+  }
+};
 
 
-
-// update user 
- exports.updateuser = async (req, res) => {
+// update user
+exports.updateuser = async (req, res) => {
   if (req.body.userid === req.params.id) {
     if (req.body.password) {
       try {
